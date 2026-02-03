@@ -30,7 +30,7 @@ func (m Model) View() string {
 	if leftWidth < 20 {
 		leftWidth = m.Width / 2
 	}
-	rightWidth := m.Width - leftWidth - 6 
+	rightWidth := m.Width - leftWidth - 6
 
 	left := m.L.View()
 
@@ -42,7 +42,7 @@ func (m Model) View() string {
 			s := i.Story
 			title := titleStyle(s.Title)
 			ts := time.Unix(s.Time, 0).Format("2006-01-02 15:04")
-			
+
 			url := s.URL
 			if url == "" {
 				url = "<no url>"
@@ -64,6 +64,6 @@ func (m Model) View() string {
 
 	row := lipgloss.JoinHorizontal(lipgloss.Top, left, "    ", right)
 	header := lipgloss.NewStyle().Bold(true).Render("Hacker News TUI - Press q to exit.")
-	
+
 	return header + "\n\n" + row
 }

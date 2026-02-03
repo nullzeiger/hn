@@ -28,7 +28,7 @@ type Story struct {
 	Time  int64  `json:"time"`
 }
 
-func FetchJSON(url string, target any) error {
+func fetchJSON(url string, target any) error {
 	client := &http.Client{Timeout: 10 * time.Second}
 	resp, err := client.Get(url)
 	if err != nil {
@@ -44,30 +44,25 @@ func FetchJSON(url string, target any) error {
 
 func FetchStories() ([]Story, error) {
 	var ids []int
-	if err := FetchJSON(TopStoriesURL, &ids); err != nil {
+	if err := fetchJSON(TopStoriesURL, &ids); err != nil {
 		return nil, err
 	}
 
-	count := len(ids)
-	if count > Limit {
-		count = Limit
-	}
+	count := min(len(ids), Limit)
 	ids = ids[:count]
 
 	stories := make([]Story, len(ids))
 	var wg sync.WaitGroup
 
 	for i, id := range ids {
-		wg.Add(1)
-		go func(i, id int) {
-			defer wg.Done()
+		wg.Go(func() {
 			var s Story
 			url := fmt.Sprintf(ItemURL, id)
-			if err := FetchJSON(url, &s); err != nil {
+			if err := fetchJSON(url, &s); err != nil {
 				s = Story{ID: id, Title: "[error fetching]"}
 			}
 			stories[i] = s
-		}(i, id)
+		})
 	}
 
 	wg.Wait()

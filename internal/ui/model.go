@@ -4,14 +4,13 @@
 
 package ui
 
-
 import (
 	"fmt"
-	"github.com/nullzeiger/hn/internal/api"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/nullzeiger/hn/internal/api"
 )
 
 type ListItem struct {
@@ -19,8 +18,10 @@ type ListItem struct {
 	Index int
 }
 
-func (i ListItem) Title() string       { return fmt.Sprintf("%2d. %s", i.Index+1, i.Story.Title) }
-func (i ListItem) Description() string { return fmt.Sprintf("by: %s • %d▲", i.Story.By, i.Story.Score) }
+func (i ListItem) Title() string { return fmt.Sprintf("%2d. %s", i.Index+1, i.Story.Title) }
+func (i ListItem) Description() string {
+	return fmt.Sprintf("by: %s • %d▲", i.Story.By, i.Story.Score)
+}
 func (i ListItem) FilterValue() string { return i.Story.Title }
 
 type StoriesLoadedMsg []api.Story

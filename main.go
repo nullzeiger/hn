@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nullzeiger/hn/internal/ui"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/nullzeiger/hn/internal/ui"
 )
 
 func main() {
