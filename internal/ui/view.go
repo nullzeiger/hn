@@ -7,14 +7,6 @@ package ui
 import (
 	"fmt"
 	"time"
-
-	"github.com/charmbracelet/lipgloss"
-)
-
-var (
-	titleStyle  = lipgloss.NewStyle().Bold(true).Render
-	labelStyle  = lipgloss.NewStyle().Foreground(lipgloss.Color("#7D7D7D")).Render
-	detailStyle = lipgloss.NewStyle().Padding(1).Border(lipgloss.NormalBorder())
 )
 
 func (m Model) View() string {
@@ -40,7 +32,7 @@ func (m Model) View() string {
 	if selectedItem != nil {
 		if i, ok := selectedItem.(ListItem); ok {
 			s := i.Story
-			title := titleStyle(s.Title)
+			title := TitleStyle(s.Title)
 			ts := time.Unix(s.Time, 0).Format("2006-01-02 15:04")
 
 			url := s.URL
@@ -50,20 +42,20 @@ func (m Model) View() string {
 
 			rightBody := fmt.Sprintf("%s\n\n%s %d / %d\n\n%s %s\n\n%s %d punti\n\n%s %s\n\n%s %s",
 				title,
-				labelStyle("Index:"), i.Index+1, len(m.Stories),
-				labelStyle("Author:"), s.By,
-				labelStyle("Score:"), s.Score,
-				labelStyle("Time:"), ts,
-				labelStyle("Link:"), url,
+				LabelStyle("Index:"), i.Index+1, len(m.Stories),
+				LabelStyle("Author:"), s.By,
+				LabelStyle("Score:"), s.Score,
+				LabelStyle("Time:"), ts,
+				LabelStyle("Link:"), url,
 			)
-			right = detailStyle.Width(rightWidth).Render(rightBody)
+			right = DetailStyle.Width(rightWidth).Render(rightBody)
 		}
 	} else {
-		right = detailStyle.Width(rightWidth).Render("No results found..")
+		right = DetailStyle.Width(rightWidth).Render("No results found..")
 	}
 
-	row := lipgloss.JoinHorizontal(lipgloss.Top, left, "    ", right)
-	header := lipgloss.NewStyle().Bold(true).Render("Hacker News TUI - Press q to exit.")
+	row := Row(left, right)
+	header := HeaderStyle("Hacker News TUI - Press q to exit.")
 
 	return header + "\n\n" + row
 }

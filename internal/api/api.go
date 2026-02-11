@@ -28,9 +28,10 @@ type Story struct {
 	Time  int64  `json:"time"`
 }
 
+var httpClient = &http.Client{Timeout: 10 * time.Second}
+
 func fetchJSON(url string, target any) error {
-	client := &http.Client{Timeout: 10 * time.Second}
-	resp, err := client.Get(url)
+	resp, err := httpClient.Get(url)
 	if err != nil {
 		return err
 	}

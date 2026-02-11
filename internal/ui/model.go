@@ -6,10 +6,10 @@ package ui
 
 import (
 	"fmt"
+
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/nullzeiger/hn/internal/api"
 )
 
@@ -42,12 +42,12 @@ func InitialModel() Model {
 	l.SetShowStatusBar(false)
 	l.SetFilteringEnabled(true)
 	l.FilterInput.Prompt = " Search: "
-	l.FilterInput.Cursor.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
+	l.FilterInput.Cursor.Style = CursorStyle
 	l.SetShowTitle(false)
 
 	s := spinner.New()
 	s.Spinner = spinner.Dot
-	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
+	s.Style = SpinnerStyle
 
 	return Model{
 		L:       l,
